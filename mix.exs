@@ -7,7 +7,10 @@ defmodule QuietLogger.Mixfile do
       version: "0.1.0",
       elixir: "~> 1.4",
       start_permanent: Mix.env == :prod,
-      deps: deps()
+      description: description(),
+      package: package(),
+      deps: deps(),
+      source_url: "https://github.com/Driftrock/quiet_logger"
     ]
   end
 
@@ -22,6 +25,21 @@ defmodule QuietLogger.Mixfile do
   defp deps do
     [
       {:plug, "~> 1.0"}
+    ]
+  end
+
+  defp description do
+    "A simple plug to suppress health check logging."
+  end
+
+  defp package do
+    [
+      name: "quiet_logger",
+      # These are the default files included in the package
+      files: ["lib", "priv", "mix.exs", "README*", "readme*", "LICENSE*", "license*"],
+      maintainers: ["Alessandro Mencarini"],
+      licenses: ["Apache 2.0"],
+      links: %{"GitHub" => "https://github.com/Driftrock/quiet_logger"}
     ]
   end
 end
