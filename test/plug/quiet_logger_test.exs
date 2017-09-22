@@ -28,12 +28,27 @@ defmodule Plug.QuietLoggerTest do
     end
   end
 
+  defmodule MyCustomPathPlug do
+    use Plug.Builder
+
+    plug Plug.QuietLogger, path: "/api/status"
+    plug :passthrough
+
+    defp passthrough(conn, _) do
+      Plug.Conn.send_resp(conn, 200, "Passthrough")
+    end
+  end
+
   defp call(conn) do
     MyPlug.call(conn, [])
   end
 
   defp debug_call(conn) do
     MyDebugPlug.call(conn, [])
+  end
+
+  defp custom_path_call(conn) do
+    MyCustomPathPlug.call(conn, [])
   end
 
   describe "Plug.QuietLogger.call/2" do
@@ -61,6 +76,14 @@ defmodule Plug.QuietLoggerTest do
 
       assert Regex.match?(~r/\[debug\] GET \/health-check/u, log)
       assert Regex.match?(~r/Sent 200 in [0-9]+[µm]s/u, log)
+    end
+
+    test "it suppresses logging with a custom request path" do
+      log = capture_log_lines fn ->
+        custom_path_call(conn(:get, "/api/status"))
+      end
+
+      assert log == ""
     end
   end
 
