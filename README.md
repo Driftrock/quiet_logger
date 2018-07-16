@@ -28,7 +28,7 @@ plug Plug.QuietLogger, path: "/api/status"
 
 You can also pass a list of paths to filter out, like:
 
-```
+```elixir
 plug Plug.QuietLogger, path: [ "/api/status", "/api/readiness" ]
 ```
 
