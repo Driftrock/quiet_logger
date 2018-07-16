@@ -19,11 +19,17 @@ end
 Once that's done you can replace `Plug.Logger` with `Plug.QuietLogger` in your
 `endpoint.ex` file and you're ready to go.
 
-If you need to customize the request path you want to suppress logging for, you 
+If you need to customize the request path you want to suppress logging for, you
 can pass it with the `plug` call:
 
 ```elixir
 plug Plug.QuietLogger, path: "/api/status"
+```
+
+You can also pass a list of paths to filter out, like:
+
+```
+plug Plug.QuietLogger, path: [ "/api/status", "/api/readiness" ]
 ```
 
 If you want to change your logging level you can also set it the same way you
