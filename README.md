@@ -1,5 +1,7 @@
 # QuietLogger
 
+[![Build Status](https://travis-ci.org/Driftrock/quiet_logger.svg?branch=master)](https://travis-ci.org/Driftrock/quiet_logger)
+
 A simple plug to suppress health check logging. Useful when running apps in
 Kubernetes.
 
@@ -19,7 +21,7 @@ end
 Once that's done you can replace `Plug.Logger` with `Plug.QuietLogger` in your
 `endpoint.ex` file and you're ready to go.
 
-If you need to customize the request path you want to suppress logging for, you 
+If you need to customize the request path you want to suppress logging for, you
 can pass it with the `plug` call:
 
 ```elixir
