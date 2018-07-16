@@ -6,7 +6,7 @@ defmodule QuietLogger.Mixfile do
       app: :quiet_logger,
       version: "0.1.0",
       elixir: "~> 1.4",
-      start_permanent: Mix.env == :prod,
+      start_permanent: Mix.env() == :prod,
       description: description(),
       package: package(),
       deps: deps(),
@@ -24,7 +24,9 @@ defmodule QuietLogger.Mixfile do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:plug, "~> 1.0"}
+      {:plug, "~> 1.0"},
+      {:ex_doc, "~> 0.18", only: :dev, runtime: false},
+      {:inch_ex, ">= 0.0.0", only: :docs}
     ]
   end
 
