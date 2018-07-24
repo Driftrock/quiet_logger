@@ -13,7 +13,7 @@ dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:quiet_logger, "~> 0.1.0"}
+    {:quiet_logger, "~> 0.2.0"}
   ]
 end
 ```
