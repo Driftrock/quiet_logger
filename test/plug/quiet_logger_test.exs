@@ -39,6 +39,18 @@ defmodule Plug.QuietLoggerTest do
     end
   end
 
+
+  defmodule MyMultiPathPlug do
+    use Plug.Builder
+
+    plug Plug.QuietLogger, path: ["/api/status", "/api/health"]
+    plug :passthrough
+
+    defp passthrough(conn, _) do
+      Plug.Conn.send_resp(conn, 200, "Passthrough")
+    end
+  end
+
   defp call(conn) do
     MyPlug.call(conn, [])
   end
@@ -49,6 +61,10 @@ defmodule Plug.QuietLoggerTest do
 
   defp custom_path_call(conn) do
     MyCustomPathPlug.call(conn, [])
+  end
+
+  defp multi_path_call(conn) do
+    MyMultiPathPlug.call(conn, [])
   end
 
   describe "Plug.QuietLogger.call/2" do
@@ -84,6 +100,23 @@ defmodule Plug.QuietLoggerTest do
       end
 
       assert log == ""
+    end
+
+    test "it suppresses logging for multiple path" do
+      log = capture_log_lines fn ->
+        multi_path_call(conn(:get, "/api/status"))
+      end
+      assert log == ""
+
+      log = capture_log_lines fn ->
+        multi_path_call(conn(:get, "/api/health"))
+      end
+      assert log == ""
+
+      log = capture_log_lines fn ->
+        multi_path_call(conn(:get, "/api/something"))
+      end
+      assert Regex.match?(~r/api\/something/, log)
     end
   end
 

@@ -28,6 +28,12 @@ can pass it with the `plug` call:
 plug Plug.QuietLogger, path: "/api/status"
 ```
 
+You can also pass a list of paths to filter out, like:
+
+```elixir
+plug Plug.QuietLogger, path: [ "/api/status", "/api/readiness" ]
+```
+
 If you want to change your logging level you can also set it the same way you
 would with `Plug.Logger`:
 
