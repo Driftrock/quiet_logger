@@ -8,13 +8,8 @@ defmodule Plug.QuietLogger do
     %{log: log, path: path}
   end
 
-  def call(%{request_path: path} = conn, %{log: :info, path: paths}) when is_list(paths) do
-    cond do
-      path in paths -> conn
-      true -> Plug.Logger.call(conn, :info)
-    end
-
-    conn
+  def call(%{request_path: path} = conn, %{log: log, path: paths}) when is_list(paths) do
+    if path in paths, do: conn, else: Plug.Logger.call(conn, log)
   end
 
   def call(%{request_path: path} = conn, %{log: :info, path: path}), do: conn
